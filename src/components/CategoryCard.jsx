@@ -16,7 +16,8 @@ function CategoryCard({ category }) {
 
       <div className="flex justify-between items-center mt-2">
         <p className="text-xs text-gray-400">
-          Spenderat: {category.amountSpent.toLocaleString('sv-SE')} kr
+          {/* amountSpent finns bara i BudgetSummary — defaultar till 0 annars */}
+          Spenderat: {(category.amountSpent ?? 0).toLocaleString('sv-SE')} kr
         </p>
         {/* Visar veckobudget om kategorin är veckobaserad */}
         {category.isWeekly && (
