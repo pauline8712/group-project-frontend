@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
+import Button from '../components/Button';
 
 // Hårdkodat budget-id för testning — ersätts med riktigt id när JWT är implementerat
 const BUDGET_ID = '00000000-0000-0000-0000-000000000001';
@@ -76,20 +77,14 @@ function TransactionForm() {
       </div>
 
       <div className="max-w-xl mx-auto px-4 py-6">
-        {error && (
-          <p className="text-red-500 text-sm mb-4">{error}</p>
-        )}
-        {success && (
-          <p className="text-green-600 text-sm mb-4">Transaktionen sparades! ✓</p>
-        )}
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {success && <p className="text-green-600 text-sm mb-4">Transaktionen sparades! ✓</p>}
 
         <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-6">
 
           {/* Kategori */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Kategori
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
             <select
               name="categoryId"
               value={form.categoryId}
@@ -97,18 +92,14 @@ function TransactionForm() {
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm"
             >
               {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
               ))}
             </select>
           </div>
 
           {/* Typ */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Typ
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Typ</label>
             <select
               name="type"
               value={form.type}
@@ -122,9 +113,7 @@ function TransactionForm() {
 
           {/* Belopp */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Belopp (kr)
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Belopp (kr)</label>
             <input
               type="number"
               name="amount"
@@ -138,9 +127,7 @@ function TransactionForm() {
 
           {/* Beskrivning */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Beskrivning
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Beskrivning</label>
             <input
               type="text"
               name="description"
@@ -153,9 +140,7 @@ function TransactionForm() {
 
           {/* Datum */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Datum
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Datum</label>
             <input
               type="date"
               name="date"
@@ -166,13 +151,10 @@ function TransactionForm() {
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-gray-900 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-gray-700 disabled:opacity-50"
-          >
+          {/* Använder återanvändbar Button-komponent */}
+          <Button type="submit" disabled={loading}>
             {loading ? 'Sparar...' : 'Spara transaktion'}
-          </button>
+          </Button>
 
         </form>
       </div>
