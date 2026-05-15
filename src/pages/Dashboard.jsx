@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
+import CategoryCard from '../components/CategoryCard';
 
 // Hårdkodat budget-id för testning — ersätts med riktigt id när JWT är implementerat
 const BUDGET_ID = '00000000-0000-0000-0000-000000000001';
@@ -20,7 +21,6 @@ function Dashboard() {
         setLoading(false);
       }
     };
-
     fetchSummary();
   }, []);
 
@@ -29,61 +29,40 @@ function Dashboard() {
   if (!summary) return null;
 
   return (
-    <div className="p-8 max-w-2xl mx-auto">
-      {/* Budgetinfo */}
-      <h1 className="text-3xl font-bold mb-2">{summary.name}</h1>
-      <p className="text-gray-500 mb-6">
-        {summary.month}/{summary.year}
-      </p>
-
-      {/* Summakort */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
-        <div className="bg-white border rounded-lg p-4">
-          <p className="text-sm text-gray-500">Total budget</p>
-          <p className="text-xl font-semibold">{summary.totalAmount} kr</p>
-        </div>
-        <div className="bg-white border rounded-lg p-4">
-          <p className="text-sm text-gray-500">Spenderat</p>
-          <p className="text-xl font-semibold text-red-500">{summary.totalSpent} kr</p>
-        </div>
-        <div className="bg-white border rounded-lg p-4">
-          <p className="text-sm text-gray-500">Kvar</p>
-          <p className="text-xl font-semibold text-green-600">{summary.remainingAmount} kr</p>
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Topbar */}
+      <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <p className="text-xs text-gray-400 mb-1">{summary.month}/{summary.year}</p>
+        <h1 className="text-2xl font-semibold text-gray-900">{summary.name}</h1>
       </div>
 
-      {/* Kategorier */}
-      <h2 className="text-xl font-semibold mb-4">Kategorier</h2>
-      {summary.categories.map((category) => (
-        <div key={category.id} className="bg-white border rounded-lg p-4 mb-3">
-          <div className="flex justify-between items-center mb-2">
-            <p className="font-semibold">{category.name}</p>
-            <p className="text-sm text-gray-500">
-              {category.currentBalance} / {category.allocatedAmount} kr
-            </p>
+      <div className="max-w-xl mx-auto px-4 py-6">
+        {/* Summakort */}
+        <div className="grid grid-cols-2 gap-3 mb-8">
+          <div className="bg-gray-100 rounded-lg p-4">
+            <p className="text-xs text-gray-500 mb-1">Total budget</p>
+            <p className="text-xl font-medium text-gray-900">{summary.totalAmount.toLocaleString('sv-SE')} kr</p>
           </div>
-          {/* Progress bar */}
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className="bg-green-500 h-2 rounded-full"
-              style={{
-                width: `${Math.min(
-                  (category.currentBalance / category.allocatedAmount) * 100,
-                  100
-                )}%`,
-              }}
-            />
+          <div className="bg-gray-100 rounded-lg p-4">
+            <p className="text-xs text-gray-500 mb-1">Kvar</p>
+            <p className="text-xl font-medium text-green-700">{summary.remainingAmount.toLocaleString('sv-SE')} kr</p>
           </div>
-          <p className="text-sm text-gray-500 mt-1">
-            Spenderat: {category.amountSpent} kr
-          </p>
-          {category.isWeekly && (
-            <p className="text-sm text-blue-500 mt-1">
-              Veckobudget: {category.weeklyAmount} kr/vecka
-            </p>
-          )}
+          <div className="bg-gray-100 rounded-lg p-4">
+            <p className="text-xs text-gray-500 mb-1">Spenderat</p>
+            <p className="text-xl font-medium text-red-600">{summary.totalSpent.toLocaleString('sv-SE')} kr</p>
+          </div>
+          <div className="bg-gray-100 rounded-lg p-4">
+            <p className="text-xs text-gray-500 mb-1">Kategorier</p>
+            <p className="text-xl font-medium text-gray-900">{summary.categories.length} st</p>
+          </div>
         </div>
-      ))}
+
+        {/* Kategorier — använder återanvändbar CategoryCard */}
+        <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">Kategorier</p>
+        {summary.categories.map((category) => (
+          <CategoryCard key={category.id} category={category} />
+        ))}
+      </div>
     </div>
   );
 }
