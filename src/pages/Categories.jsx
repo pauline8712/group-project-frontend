@@ -3,7 +3,7 @@ import api from '../services/api';
 import CategoryCard from '../components/CategoryCard';
 
 // Hårdkodat budget-id för testning — ersätts med riktigt id när JWT är implementerat
-const BUDGET_ID = '00000000-0000-0000-0000-000000000001';
+const BUDGET_ID = 'ce54634e-79e9-422e-a7eb-59292d576c16';
 
 function Categories() {
   const [categories, setCategories] = useState([]);

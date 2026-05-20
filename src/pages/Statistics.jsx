@@ -5,7 +5,7 @@ import ProgressBar from '../components/ProgressBar';
 import TransactionItem from '../components/TransactionItem';
 
 // Hårdkodat budget-id för testning — ersätts med riktigt id när JWT är implementerat
-const BUDGET_ID = '00000000-0000-0000-0000-000000000001';
+const BUDGET_ID = 'ce54634e-79e9-422e-a7eb-59292d576c16';
 
 const DAGNAMN = ['Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön'];
 
